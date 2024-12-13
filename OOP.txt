@@ -1,0 +1,454 @@
+#include<iostream>
+using namespace std;
+
+class complex
+{
+    private:
+    double real;
+    double imag;
+
+    public:
+    complex()
+    {
+        real=0;
+        imag=0;
+
+    }
+
+    complex(double r,double i)
+    {
+        real=r;
+        imag=i;
+    }
+
+    complex operator+(const complex& other)
+    {
+        return complex(real+other.real,imag+other.imag);
+    }
+    complex operator*(const complex& other)
+    {
+        double r=real*other.real-imag*other.imag;
+        double i=real*other.imag+imag*other.real;
+        return complex(r,i);
+    }
+
+    friend ostream& operator<<(ostream& os,const complex& c)
+    {
+        os<<c.real<<"+"<<c.imag<<"i";
+        return os;
+    }
+    friend istream& operator<<(istream& is, complex& c)
+    {
+        is>>c.real>>c.imag;
+        return is;
+    }
+};
+int main()
+{
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+#include<string.h>
+#include<exception>
+using namespace std;
+
+class Information
+{
+    private:
+       string name;
+       string dob;
+       string bloodgrp;
+       string contact_address;
+       string phone_no;
+       string driving_lis;
+
+    public:
+      Information()
+      {
+        this->name="";
+        this->dob="";
+        this->bloodgrp="";
+        this->contact_address="";
+        this->phone_no="";
+        this->driving_lis="";
+      }
+
+      Information(Information &other)
+      {
+        this->name=other.name;
+        this->dob=other.dob;
+        this->bloodgrp=other.bloodgrp;
+        this->contact_address=other.contact_address;
+        this->phone_no=other.phone_no;
+        this->driving_lis=other.driving_lis;
+      }
+
+      ~Information()
+      {
+        cout<<"memory deallocated!";
+      }
+
+      void display()
+      {
+        cout<<"\n\nInformation Details:\n";
+        cout << "Name: " << name << endl;
+        cout << "Date of Birth: " << dob << endl;
+        cout << "Blood Group: " << bloodgrp << endl; 
+        cout << "Contact Address: " << contact_address << endl;
+        cout << "Telephone Number: " << phone_no << endl;
+        cout << "Driving license Number: " << driving_lis << endl;
+
+      }
+
+      friend class Data;
+
+
+};
+
+class Data
+{
+    public:
+      void getData(Information &info)
+      {
+         cout << "Enter student Name: "; 
+        cin >> info.name;
+
+        cout << "Enter student date of birth: "; 
+        cin >> info.dob;
+
+        cout << "Enter student blood group: "; 
+        cin >> info.bloodgrp;
+
+        cout << "Enter student contact address: "; 
+        cin >> info.contact_address;  
+
+        cout << "Enter student phone number: "; 
+        cin >> info.phone_no; 
+
+        cout << "Enter student driving license number: "; 
+        cin >> info.driving_lis;
+      }
+
+};
+
+int main()
+{
+    try
+    {
+        Information *info1=new Information();
+        Data data1;
+
+        data1.getData(*info1);
+        info1->display();
+
+        delete info1;
+
+    }
+    catch (exception &e)
+    {
+        cerr<<e.what()<<endl;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+
+class Publication
+{
+   public:
+      string title;
+      float price;
+   void get_data()
+   {
+     cout<<"Enter Title name:";
+     cin>>title;
+     cout<<"Enter Price:";
+     cin>>price;
+
+   }  
+};
+
+class Book: public Publication
+{
+   public:
+    int page_count;
+
+    void getitems()
+    {
+        cout<<"Enter page Count:";
+        cin>>page_count;
+    }
+};
+
+class Tape: public Publication
+{
+   public:
+   int mincount;
+
+   void getitems()
+   {
+    cout<<"Enter Number of minuutes :";
+    cin>>mincount;
+
+   }
+};
+
+
+int main()
+{
+    Publication obj1;
+    obj1.get_data();
+
+    Book obj2;
+    obj2.getitems();
+
+    Tape obj3;
+    obj3.getitems();
+
+
+    try
+    {
+        if(obj1.price<0)
+        {
+            obj1.price=0;
+            throw obj1;
+        }
+    }
+    catch(Publication obj1)
+    {
+        cout<<"Exception caught for publication price"<<endl;
+
+    }
+
+     try
+    {
+        if(obj2.page_count<0)
+        {
+            obj2.page_count=0;
+            throw obj2;
+        }
+    }
+    catch(Book  obj2)
+    {
+        cout<<"Exception caught for Book Page count"<<endl;
+        
+    }
+
+     try
+    {
+        if(obj3.mincount<0)
+        {
+            obj3.mincount=0;
+            throw obj3;
+        }
+    }
+    catch(Tape obj3)
+    {
+        cout<<"Exception caught for Tape Minutes"<<endl;
+
+    }
+
+    cout<<"Title:"<<obj1.title<<endl;
+    cout<<"Price:"<<obj1.price<<endl;
+    cout<<"Pages:"<<obj2.page_count<<endl;
+    cout<<"minutes:"<<obj3.mincount<<endl;
+  return 0;
+};
+
+
+
+
+
+
+
+
+
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+class employee
+{
+   char name[20];
+   int emp_id;
+   float salary;
+   public:
+
+   void accept()
+   {
+    cout<<"Enter name,emp_id and salary:";
+    cin>> name>>emp_id>>salary;
+
+   }
+
+   void display()
+   {
+    cout<<"Name:"<<name<<"\nID:"<<emp_id<<"\nSalary:"<<salary<<endl;
+   }
+};
+
+int main ()
+{
+   employee emp[5];
+   fstream file;
+   int n;
+
+   cout<<"How Many employee records do you want to store?";
+   cin>>n;
+
+   file.open("employee.txt",ios::out);
+   if(file.is_open())
+   {
+     cout<<"Employee Information:"<<endl;
+     for(int i=0;i<n;++i)
+     {
+        emp[i].accept();
+        file.write((char*)&emp[i],sizeof(employee));
+     }
+   }
+   file.close();
+
+   file.open("employee.txt",ios::in);
+   if(file.is_open())
+   {
+    for(int i=0;i<n;i++)
+    {
+        file.read((char*)&emp[i],sizeof(employee));
+        emp[i].display();
+
+    }
+   }
+   file.close();
+   return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+#define size 10
+int n;
+template<class T>
+
+void selection(T A[size])
+{
+    int i,j,min;
+    T temp;
+
+    for(i=0;i<=n-2;i++)
+    {
+        min=i;
+        for(j=i+1;j<=n-1;j++)
+        {
+            if(A[j]<A[min])
+            min=j;
+        }
+        temp=A[i];
+        A[i]=A[min];
+        A[min]=temp;
+    }
+    cout<<"Sorted List\n";
+    for(i=0;i<n;i++)
+    cout<<"\t"<<A[i];
+}
+
+int main()
+{
+    int i;
+    int A[size];
+    float B[size];
+    cout<<"Integer Sort\n";
+    cout<<"Enter the number of inputs:";
+    cin>>n;
+    cout<<"\nEnter the elements:\n";
+    for( i=0;i<n;i++)
+    cin>>A[i];
+    selection(A);
+    cout<<"\nFloat Sort\n";
+    cout<<"Enter the number of inputs:";
+    cin>>n;
+    cout<<"\nEnter the elements:\n";
+    for(i=0;i<n;i++)
+    cin>>B[i];
+    selection(B);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+#include<map>
+#include<string>
+using namespace std;
+
+int main()
+{
+    typedef map<string,int>maptype;
+    maptype populationmap;
+
+    populationmap.insert(pair<string,int>("Maharashtra",100000));
+    populationmap.insert(pair<string,int>("Punjab",2940900));
+    populationmap.insert(pair<string,int>("Gujrat",37888));
+    populationmap.insert(pair<string,int>("Kerala",289798));
+    populationmap.insert(pair<string,int>("Goa",7776876));
+
+    maptype::iterator iter;
+    cout<<"Population of Indian States\n";
+    cout<<"Number of States:"<<populationmap.size();
+    string statename;
+    cout<<"\nEnter the name of state:";
+    cin>>statename;
+    iter=populationmap.find(statename);
+    if(iter!=populationmap.end())
+    {
+        cout<<statename<<"'s Population is:"<<iter->second;
+
+    }
+    else
+    cout<<"State not in Map";
+    populationmap.clear();
+
+}
